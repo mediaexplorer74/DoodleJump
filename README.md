@@ -14,8 +14,6 @@ This is only my another experiment to fast transform WP8 (XAP) to UWP (APPX) on/
 Not for any production. This is for learning purpopes / dev only!
 
 ## Screenshot(s)
-
-![Sony Vaio, W11 Tiny](Images/screenshot01.png)
 ![Sony Vaio, W11 Tiny](Images/screenshot02.png)
 ![Lumia640, W10M Astoria](Images/screenshot03.png)
 
