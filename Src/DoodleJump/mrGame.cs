@@ -1,4 +1,4 @@
-﻿// Type: mrGame.mrGame
+﻿// Type: mrGame.MrGame
 // Assembly: DoodleJump, Version=1.8.10.0, Culture=neutral, PublicKeyToken=null
 
 using System;
@@ -9,18 +9,17 @@ using System.IO;
 using System.IO.IsolatedStorage;
 using System.Text;
 using System.Threading;
-//using Microsoft.Devices;
-//using Microsoft.Devices.Sensors;
-//using Microsoft.Phone.Info;
-//using Microsoft.Phone.Shell;
-//using Microsoft.Phone.Tasks;
+
+using Windows.UI.Core;
+using Windows.Devices.Sensors;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 //using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
-using Windows.Devices.Sensors;
+using Windows.Foundation;
 
 
 //#nullable disable
@@ -140,7 +139,7 @@ namespace mrGame
         private static AchievementCollection p_Achievements;// = (AchievementCollection) null;
     private static int p_xbla_MaxGamerScore = 0;
     private static int p_xbla_EarnedGamerScore = 0;
-    private Accelerometer p_xna_sensor;
+    private Accelerometer _accelerometer;
     private static bool p_xna_sensor_activatedByGame = false;
     public int runko_state;
     public bool p_inputtingText;
@@ -462,8 +461,9 @@ namespace mrGame
     public int dxScoresId;
     public bool dxErrorRequest;
     public int leaderboardIndex;
+        public bool isExceptionFirstShown = true;
 
-    public void egfx_reset()
+        public void egfx_reset()
     {
       this.p_tf_Xu = this.p_tf_Xx = this.p_tf_Yv = this.p_tf_Yy = 1f;
       this.p_tf_Xv = this.p_tf_Xy = this.p_tf_X1 = this.p_tf_Yu = this.p_tf_Yx = this.p_tf_Y1 = 0.0f;
@@ -2193,6 +2193,7 @@ namespace mrGame
 
     public void debug_text(mrGame.MrGame.MrgString s)
     {
+            Debug.WriteLine("[i] " + s);
     }
 
     public int unsigned_shr(int a, int b) => a >>> b;
@@ -3111,6 +3112,7 @@ namespace mrGame
     {
       if (!mrGame.MrGame.p_xna_sensor_activatedByGame)
         return;
+
       this.mrg_startAccelerationSensor();
     }
 
@@ -3124,30 +3126,49 @@ namespace mrGame
 
     public void mrg_startAccelerationSensor()
     {
-            /*
+           
       try
       {
-        //PhoneApplicationService.Current.UserIdleDetectionMode = (IdleDetectionMode) 1;
-        
-        if (this.p_xna_sensor == null)
-        {
-          this.p_xna_sensor = new Accelerometer();
-          this.p_xna_sensor.ReadingChanged += new EventHandler<EventArgs>(this.p_xna_AccelerometerReadingChanged);
-        }
-        this.debug_text((mrGame.MrGame.MrgString) nameof (mrg_startAccelerationSensor));
+                //PhoneApplicationService.Current.UserIdleDetectionMode = (IdleDetectionMode) 1;
+
+                //if (this._accelerometer == null)
+                //{
+                //  this._accelerometer = new Accelerometer();//();
+                //  this._accelerometer.ReadingChanged += new EventHandler<AccelerometerReadingChangedEventArgs>(this.p_xna_AccelerometerReadingChanged);
+                //}
+
+                if (_accelerometer == null)
+                    _accelerometer = Accelerometer.GetDefault();
+
+                if (_accelerometer != null)
+                {
+                    // Establish the report interval
+                    uint minReportInterval = _accelerometer.MinimumReportInterval;
+                    uint reportInterval = minReportInterval > 16 ? minReportInterval : 16;
+                    _accelerometer.ReportInterval = reportInterval;
+
+                    // Assign an event handler for the reading-changed event
+                    _accelerometer.ReadingChanged += new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(p_xna_AccelerometerReadingChanged);
+                }
+
+                this.debug_text((mrGame.MrGame.MrgString) nameof (mrg_startAccelerationSensor));
+
         mrGame.MrGame.p_xna_sensor_activatedByGame = true;
-        this.p_xna_sensor.Start();
+
+        //this._accelerometer.Start();
+
       }
       catch (Exception ex)//(AccelerometerFailedException ex)
       {
+         Debug.WriteLine("[ex] Accelerometer reading error: " + ex.Message);
       }
-      catch (UnauthorizedAccessException ex)
-      {
-      }
-      catch
-      {
-      }
-            */
+      //catch (UnauthorizedAccessException ex)
+      //{
+      //}
+      //catch
+      //{
+      //}
+            
     }
 
     public void mrg_stopAccelerationSensor()
@@ -3155,31 +3176,61 @@ namespace mrGame
       try
       {
         //PhoneApplicationService.Current.UserIdleDetectionMode = (IdleDetectionMode) 0;
-        if (this.p_xna_sensor != null)
+        if (this._accelerometer != null)
         {
           this.debug_text((mrGame.MrGame.MrgString) nameof (mrg_stopAccelerationSensor));
           mrGame.MrGame.p_xna_sensor_activatedByGame = false;
           
-                    //RnD
-          //this.p_xna_sensor.Stop();
+          //RnD
+          //this._accelerometer.Stop();
         }
       }
       catch (Exception ex)//(AccelerometerFailedException ex)
       {
+         Debug.WriteLine("[ex] Accelerometer failed: " + ex.Message);
       }
       this.p_acceleration_x = 0;
       this.p_acceleration_y = 0;
       this.p_acceleration_z = 0;
     }
 
-    public void p_xna_AccelerometerReadingChanged(object sender, EventArgs e)
+    public async void p_xna_AccelerometerReadingChanged(object sender, AccelerometerReadingChangedEventArgs e)
     {
       try
       {
-                //RnD
-                int int32_1 = 0;//Convert.ToInt32((e.X * (double) ushort.MaxValue <= (double) ushort.MaxValue ? e.X * (double) ushort.MaxValue : (double) ushort.MaxValue) >= -65535.0 ? (e.X * (double) ushort.MaxValue <= (double) ushort.MaxValue ? (float) (e.X * (double) ushort.MaxValue) : (float) ushort.MaxValue) : -65535f);
-                int int32_2 = 0;//Convert.ToInt32((e.Y * (double) ushort.MaxValue <= (double) ushort.MaxValue ? e.Y * (double) ushort.MaxValue : (double) ushort.MaxValue) >= -65535.0 ? (e.Y * (double) ushort.MaxValue <= (double) ushort.MaxValue ? (float) (e.Y * (double) ushort.MaxValue) : (float) ushort.MaxValue) : -65535f);
-                int int32_3 = 0;//Convert.ToInt32((e.Z * (double) ushort.MaxValue <= (double) ushort.MaxValue ? e.Z * (double) ushort.MaxValue : (double) ushort.MaxValue) >= -65535.0 ? (e.Z * (double) ushort.MaxValue <= (double) ushort.MaxValue ? (float) (e.Z * (double) ushort.MaxValue) : (float) ushort.MaxValue) : -65535f);
+        int int32_1 = 0;
+        int int32_2 = 0;
+        int int32_3 = 0;
+
+        //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //{
+       
+         int32_1 = Convert.ToInt32(
+            (e.Reading.AccelerationX * (double) ushort.MaxValue <= (double) ushort.MaxValue 
+            ? e.Reading.AccelerationX * (double) ushort.MaxValue 
+            : (double) ushort.MaxValue) >= -65535.0 
+            ? (e.Reading.AccelerationX * (double) ushort.MaxValue <= (double) ushort.MaxValue
+            ? (float) (e.Reading.AccelerationX * (double) ushort.MaxValue) : (float) ushort.MaxValue)
+            : -65535f );
+
+        int32_2 = Convert.ToInt32(
+            (e.Reading.AccelerationY * (double) ushort.MaxValue <= (double) ushort.MaxValue 
+            ? e.Reading.AccelerationY * (double) ushort.MaxValue 
+            : (double) ushort.MaxValue) >= -65535.0
+                 ? (e.Reading.AccelerationY * (double) ushort.MaxValue <= (double) ushort.MaxValue 
+                ? (float) (e.Reading.AccelerationY * (double) ushort.MaxValue) 
+                : (float) ushort.MaxValue) 
+            : -65535f);
+
+        int32_3 = Convert.ToInt32(
+            (e.Reading.AccelerationZ * (double) ushort.MaxValue <= (double) ushort.MaxValue
+            ? e.Reading.AccelerationZ * (double) ushort.MaxValue : (double) ushort.MaxValue) >= -65535.0 
+            ? (e.Reading.AccelerationZ * (double) ushort.MaxValue <= (double) ushort.MaxValue 
+            ? (float) (e.Reading.AccelerationZ * (double) ushort.MaxValue)
+            : (float) ushort.MaxValue) : -65535f);
+        
+        // });
+
         switch (TouchPanel.DisplayOrientation)
         {
           case DisplayOrientation.LandscapeLeft:
@@ -3199,8 +3250,13 @@ namespace mrGame
             break;
         }
       }
-      catch
+      catch (Exception ex)
       {
+        if (isExceptionFirstShown)
+        {
+            Debug.WriteLine("[ex] p_xna_AccelerometerReadingChanged error: " + ex.Message);
+            isExceptionFirstShown = false;
+        }
       }
     }
 
@@ -3446,7 +3502,7 @@ namespace mrGame
     public int mrp_getFreeMemory()
     {
         long num = 10;// (long) DeviceExtendedProperties.GetValue("ApplicationCurrentMemoryUsage");
-        return (int)300000;//((long) DeviceExtendedProperties.GetValue("DeviceTotalMemory") - num);
+        return (int)(320000 - num);//((long) DeviceExtendedProperties.GetValue("DeviceTotalMemory") - num);
     }
 
     public int mrp_getTotalMemory()
@@ -14302,8 +14358,10 @@ namespace mrGame
       this.doj_endGameSeq = false;
       this.doj_fp_endGameYoff = 0;
       this.eg_reset();
+
       if (!this.p_inGame)
         return;
+      
       this.mrg_startAccelerationSensor();
     }
 
@@ -14328,7 +14386,9 @@ namespace mrGame
       this.p_indexTable2[1531] = (short) 2;
       this.p_indexTable2[1551] = (short) 2;
       this.p_indexTable2[1635] = (short) 2;
+
       this.mrg_startAccelerationSensor();
+      
       this.doj_clearGameState();
       if (!this.multiplayer_loadingState)
       {

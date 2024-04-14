@@ -8,44 +8,46 @@ namespace mrGame
 {
     public class LeaderboardReader
     {
-        internal List<SignedInGamer> Entries;
-        internal long PageStart;
-        internal bool CanPageUp;
-        internal bool CanPageDown;
+        public List<SignedInGamer> Entries;
+        public long PageStart;
+        public bool CanPageUp;
+        public bool CanPageDown;
 
-        internal static void BeginRead(LeaderboardIdentity identity, Gamer p_SignedInGamer, int numScoresPerPage, AsyncCallback asyncCallback, object asyncState)
+        public static void BeginRead(LeaderboardIdentity identity, 
+            Gamer p_SignedInGamer, int numScoresPerPage, AsyncCallback asyncCallback, object asyncState)
         {
-            throw new NotImplementedException();
+            //
         }
 
-        internal static void BeginRead(LeaderboardIdentity identity, int startingPage, int numScoresPerPage, AsyncCallback asyncCallback, object asyncState)
+        public static void BeginRead(LeaderboardIdentity identity, int startingPage, 
+            int numScoresPerPage, AsyncCallback asyncCallback, object asyncState)
         {
-            throw new NotImplementedException();
+            //
         }
 
-        internal static LeaderboardReader EndRead(IAsyncResult result)
+        public static LeaderboardReader EndRead(IAsyncResult result)
         {
-            throw new NotImplementedException();
+            return default;
         }
 
-        internal void BeginPageDown(AsyncCallback asyncCallback, object pXblaLeaderboard)
+        public void BeginPageDown(AsyncCallback asyncCallback, object pXblaLeaderboard)
         {
-            throw new NotImplementedException();
+            //
         }
 
-        internal void BeginPageUp(AsyncCallback asyncCallback, object pXblaLeaderboard)
+        public void BeginPageUp(AsyncCallback asyncCallback, object pXblaLeaderboard)
         {
-            throw new NotImplementedException();
+            //
         }
 
-        internal void EndPageDown(IAsyncResult result)
+        public void EndPageDown(IAsyncResult result)
         {
-            throw new NotImplementedException();
+            //
         }
 
-        internal void EndPageUp(IAsyncResult result)
+        public void EndPageUp(IAsyncResult result)
         {
-            throw new NotImplementedException();
+            //
         }
     }
 }

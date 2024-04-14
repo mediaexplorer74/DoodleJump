@@ -1,4 +1,4 @@
-﻿// Type: mrGame.mrGame
+﻿// Type: mrGame.Guide
 // Assembly: DoodleJump, Version=1.8.10.0, Culture=neutral, PublicKeyToken=null
 
 using Microsoft.Xna.Framework;
@@ -14,27 +14,27 @@ namespace mrGame
 
         internal static IAsyncResult BeginShowKeyboardInput(PlayerIndex one, string v1, string v2, string v3, AsyncCallback asyncCallback, object v4)
         {
-            throw new NotImplementedException();
+            return default;
         }
 
         internal static void BeginShowMessageBox(string v1, string v2, IEnumerable<string> enumerable, int v3, object alert, AsyncCallback asyncCallback, object v4)
         {
-            throw new NotImplementedException();
+            //
         }
 
         internal static string EndShowKeyboardInput(IAsyncResult result)
         {
-            throw new NotImplementedException();
+            return default;
         }
 
         internal static int? EndShowMessageBox(IAsyncResult userResult)
         {
-            throw new NotImplementedException();
+            return default; 
         }
 
         internal static void ShowMarketplace(PlayerIndex one)
         {
-            throw new NotImplementedException();
+            //
         }
     }
 }

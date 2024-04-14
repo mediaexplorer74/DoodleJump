@@ -1,4 +1,4 @@
-﻿// Type: mrGame.mrGame
+﻿// Type: mrGame.LeaderboardKey
 // Assembly: DoodleJump, Version=1.8.10.0, Culture=neutral, PublicKeyToken=null
 
 namespace mrGame
@@ -7,7 +7,7 @@ namespace mrGame
     {
         public static LeaderboardKey BestScoreLifeTime;
         public static LeaderboardKey BestTimeLifeTime;
-        internal static LeaderboardKey BestScoreRecent;
-        internal static LeaderboardKey BestTimeRecent;
+        public static LeaderboardKey BestScoreRecent;
+        public static LeaderboardKey BestTimeRecent;
     }
 }

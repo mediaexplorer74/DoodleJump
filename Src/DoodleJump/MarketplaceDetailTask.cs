@@ -1,4 +1,4 @@
-﻿// Type: mrGame.mrGame
+﻿// Type: mrGame.MarketplaceDetailTask
 // Assembly: DoodleJump, Version=1.8.10.0, Culture=neutral, PublicKeyToken=null
 
 using System;

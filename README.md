@@ -9,14 +9,15 @@ languages: csharp
 products: windows 10, windows 10 mobile
 
 ## About 
-This is only my anotter experiment to fast transform WP8 (XAP) to UWP (APPX) on/in W10M Astoria :)
+This is only my another experiment to fast transform WP8 (XAP) to UWP (APPX) on/in W10M Astoria :)
  
 Not for any production. This is for learning purpopes / dev only!
 
 ## Screenshot(s)
 
-![](Images/screenshot01.png)
-![](Images/screenshot02.png)
+![Sony Vaio, W11 Tiny](Images/screenshot01.png)
+![Sony Vaio, W11 Tiny](Images/screenshot02.png)
+![Lumia640, W10M Astoria](Images/screenshot03.png)
 
 ## Features
 Min. Win. OS Build descreased to 10240 (Astoria Compatibility)
@@ -36,7 +37,7 @@ For a step-by-step walkthrough of the code, check out the [MonoGame 2D tutorial 
 ## Status
 - Game only starts "as is" (main menu with greeeat graphics distort.)))
 - XBox Live deals brocken (disabled / cutted)
-- Sensor deals + Game control not ready (cutted too!)
+- Device Sensor (Accelerometer) support fixed (I hope)))
 - Only PoC, no less no more! =))))
 
 
